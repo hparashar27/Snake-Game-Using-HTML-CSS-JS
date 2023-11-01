@@ -26,7 +26,10 @@ let snake = [
 ];
 
 let tickDelay = 350; 
-let playerName; 
+
+const urlParams = new URLSearchParams(window.location.search);
+const playerName = urlParams.get('name');
+
 const players = [];
 const gameHistory = [];
 const leaderboard = [];
@@ -37,7 +40,6 @@ resetBtn.addEventListener("click", resetGame);
 
 function startGame() {
     if (!running) {
-        playerName = prompt("Enter your name:");
         if (playerName && !players.includes(playerName)) {
             players.push(playerName); 
             gameHistory.push({ name: playerName, score: 0 }); 
@@ -141,15 +143,44 @@ function changeDirection(event) {
     }
 }
 
+// function checkGameOver() {
+//     switch (true) {
+//         case (snake[0].x < 0):
+//         case (snake[0].x > gameWidth):
+//         case (snake[0].y < 0):
+//         case (snake[0].y > gameHeight):
+//             running = false;
+//             break;
+//     }
+//     for (let i = 1; i < snake.length; i += 1) {
+//         if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+//             running = false;
+//             break;
+//         }
+//     }
+//     if (!running) {
+//         const playerData = gameHistory.find(item => item.name === playerName);
+//         playerData.score = score;
+//         addToLeaderboard(playerName, score);
+//     }
+// }
+
+//  
 function checkGameOver() {
-    switch (true) {
-        case (snake[0].x < 0):
-        case (snake[0].x > gameWidth):
-        case (snake[0].y < 0):
-        case (snake[0].y > gameHeight):
-            running = false;
-            break;
+    
+    if (snake[0].x < 0) {
+        snake[0].x = gameWidth - unitSize;
+    } else if (snake[0].x >= gameWidth) {
+        snake[0].x = 0;
     }
+
+    if (snake[0].y < 0) {
+        snake[0].y = gameHeight - unitSize;
+    } else if (snake[0].y >= gameHeight) {
+        snake[0].y = 0;
+    }
+
+    // Check for self-collision
     for (let i = 1; i < snake.length; i += 1) {
         if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
             running = false;
@@ -162,6 +193,7 @@ function checkGameOver() {
         addToLeaderboard(playerName, score);
     }
 }
+
 
 function displayGameOver() {
     ctx.font = "50px MV Boli";

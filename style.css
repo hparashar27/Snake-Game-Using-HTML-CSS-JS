@@ -1,5 +1,5 @@
 body {
-    background: url('snake.png') no-repeat center center fixed;
+    background: url('../Snake-Game-Using-HTML-CSS-JS//public/snake.png') no-repeat center center fixed;
     background-size: cover;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, cursive;
     margin: 0;
